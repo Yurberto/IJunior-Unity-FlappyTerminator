@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,11 +15,21 @@ public class PlayerMover : MonoBehaviour
     [SerializeField, Range(0.0f, 180.0f)] private float _maxRotationZ = 35.0f;
     [SerializeField, Range(-180.0f, 0.0f)] private float _minRotationZ = -55.0f;
 
+    private bool _isRotateUp;
+
     private Rigidbody2D _rigidbody2D;
 
     private Vector3 _startPosition;
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
+    private Quaternion _targetRotation;
+
+    private Coroutine _rotateToUp;
+
+    public void Reset()
+    {
+        transform.position = _startPosition;
+    }
 
     private void Awake()
     {
@@ -27,25 +39,48 @@ public class PlayerMover : MonoBehaviour
     private void Start()
     {
         _startPosition = transform.position;
+        _isRotateUp = false;
 
         _maxRotation = Quaternion.Euler(RotationX, RotationY, _maxRotationZ);
         _minRotation = Quaternion.Euler(RotationX, RotationY, _minRotationZ);
     }
 
-    public void Reset()
+    private void Update()
     {
-        transform.position = _startPosition;
+        if (_isRotateUp)
+            _targetRotation = _maxRotation;
+        else 
+            _targetRotation = _minRotation;
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, _rotationSpeed * Time.deltaTime);
     }
 
     public void Jump()
     {
         _rigidbody2D.velocity = new Vector2(_speed, _jumpForce);
-        transform.rotation = _maxRotation;
+        StartRotatateToUpCoroutine();
     }
 
     public void Move()
     {
         _rigidbody2D.velocity = new Vector2(_speed, _rigidbody2D.velocity.y);
-        transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
+    }
+
+    private void StartRotatateToUpCoroutine()
+    {
+        if (_rotateToUp != null)
+        {
+            StopCoroutine(_rotateToUp);
+            _rotateToUp = null;
+        }
+
+        _rotateToUp = StartCoroutine(RotateToUp());
+    }
+
+    private IEnumerator RotateToUp()
+    {
+        _isRotateUp = true;
+        yield return new WaitWhile(() => _rigidbody2D.velocity.y > 0);
+        _isRotateUp = false;
     }
 }
