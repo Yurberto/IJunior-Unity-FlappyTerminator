@@ -2,13 +2,16 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(CollisionHandler))]
+[RequireComponent(typeof(Shooter))]
+[RequireComponent(typeof(PlayerTriggerHandler))]
+[RequireComponent(typeof(Collider2D))]
 public class Player : MonoBehaviour
 {
     [SerializeField] InputReader _inputReader;
 
     private PlayerMover _playerMover;
-    private CollisionHandler _collisionHandler;
+    private Shooter _shooter;
+    private PlayerTriggerHandler _collisionHandler;
 
     public event Action Dead;
 
@@ -20,18 +23,26 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _playerMover = GetComponent<PlayerMover>();
-        _collisionHandler = GetComponent<CollisionHandler>();
+        _shooter = GetComponent<Shooter>();
+        _collisionHandler = GetComponent<PlayerTriggerHandler>();
+    }
+
+    private void Start()
+    {
+        GetComponent<Collider2D>().isTrigger = true;
     }
 
     private void OnEnable()
     {
         _inputReader.JumpKeyPressed += Jump;
+        _inputReader.ShootKeyPressed += Shoot;
         _collisionHandler.ObstacleHitted += Die;
     }
 
     private void OnDisable()
     {
         _inputReader.JumpKeyPressed -= Jump;
+        _inputReader.ShootKeyPressed -= Shoot;
         _collisionHandler.ObstacleHitted -= Die;
     }
 
@@ -45,8 +56,13 @@ public class Player : MonoBehaviour
         _playerMover.Jump();
     }
 
+    private void Shoot()
+    {
+        _shooter.Shoot(transform.right);
+    }
+
     private void Die()
     {
-        Dead?.Invoke();
+        Dead?.Invoke(); 
     }
 }
