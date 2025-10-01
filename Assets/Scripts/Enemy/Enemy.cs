@@ -12,27 +12,36 @@ public class Enemy : MonoBehaviour
     private Shooter _shooter;
     private EnemyTriggerHandler _triggerHandler;
 
-    private Coroutine _shootCoroutine;
+    private Coroutine _shootCoroutine = null;
 
     public event Action<Enemy> Dead;
 
     private void Awake()
     {
+        Debug.Log("Enemy Awake");
+
         _shooter = GetComponent<Shooter>();
+
         _triggerHandler = GetComponent<EnemyTriggerHandler>();
     }
 
     private void Start()
     {
-        GetComponent<Collider2D>().isTrigger = true;
+        Debug.Log("ENEMY START");
 
-        _shootCoroutine = StartCoroutine(ShootCoroutine());
+        GetComponent<Collider2D>().isTrigger = true;
     }
 
     private void OnEnable()
     {
+        Debug.Log("Enemy ONENable");
+
         _triggerHandler.MissileHitted += Die;
         _triggerHandler.ReleaseZoneHitted += Die;
+
+        Debug.Log("START Shooting");
+
+        StartShooting();
     }
 
     private void OnDisable()
@@ -43,7 +52,23 @@ public class Enemy : MonoBehaviour
 
     private void Shoot()
     {
+        if (_shooter == null)
+        {
+            Debug.LogError("SHOOTERA HET");
+            return;
+        }
         _shooter.Shoot(-transform.right);
+    }
+
+    private void StartShooting()
+    {
+        if (_shootCoroutine != null)
+        {
+            StopCoroutine(_shootCoroutine);
+            _shootCoroutine = null;
+        }
+
+        _shootCoroutine = StartCoroutine(ShootCoroutine());
     }
 
     private IEnumerator ShootCoroutine()

@@ -12,7 +12,7 @@ public class EnemySpawner : Spawner<Enemy>
 
     private void Start()
     {
-        _spawnCoroutine = StartCoroutine(SpawnCoroutine());
+        StartSpawn();
     }
 
     protected override void GetAction(Enemy @object)
@@ -32,10 +32,20 @@ public class EnemySpawner : Spawner<Enemy>
 
     private Vector2 GetRandomPosition()
     {
-        float randomX = Random.Range(_spawnZone.bounds.min.x, _spawnZone.bounds.max.x);
         float randomY = Random.Range(_spawnZone.bounds.min.y, _spawnZone.bounds.max.y);
 
-        return new Vector2(randomX, randomY);
+        return new Vector2(_spawnZone.bounds.min.x, randomY);
+    }
+
+    private void StartSpawn()
+    {
+        if (_spawnCoroutine != null)
+        {
+            StopCoroutine(SpawnCoroutine());
+            _spawnCoroutine = null;
+        }
+
+        _spawnCoroutine = StartCoroutine(SpawnCoroutine());
     }
 
     private IEnumerator SpawnCoroutine()

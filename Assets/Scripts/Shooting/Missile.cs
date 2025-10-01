@@ -15,6 +15,8 @@ public class Missile : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Missile AWAKE");
+
         _collider2D = GetComponent<Collider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
@@ -22,6 +24,7 @@ public class Missile : MonoBehaviour
     private void Start()
     {
         _collider2D.isTrigger = true;
+        _rigidbody2D.gravityScale = 0.0f;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

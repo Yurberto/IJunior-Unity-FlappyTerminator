@@ -3,8 +3,7 @@ using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
-    [SerializeField] private T _prefab;
-    [SerializeField] private Transform _container;
+    [SerializeField] protected T Prefab;
 
     private ObjectPool<T> _pool;
 
@@ -12,7 +11,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     {
         _pool = new ObjectPool<T>
             (
-                createFunc: () => Instantiate(_prefab, _container),
+                createFunc: () => Create(),
                 actionOnGet: (@object) => GetAction(@object),
                 actionOnRelease: (@object) => ReleaseAction(@object),
                 actionOnDestroy: (@object) => Destroy(@object.gameObject),
@@ -38,5 +37,10 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     protected virtual void ReleaseAction(T @object)
     {
         @object.gameObject.SetActive (false);
+    }
+
+    protected virtual T Create()
+    {
+        return Instantiate(Prefab, transform);
     }
 }

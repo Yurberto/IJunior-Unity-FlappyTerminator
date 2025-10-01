@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4390149817204955091}
   - component: {fileID: 75447026260445260}
   - component: {fileID: 8405255437715449793}
+  - component: {fileID: 1854530287594088021}
   - component: {fileID: 429175709519009808}
   m_Layer: 0
   m_Name: Player
@@ -144,7 +145,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _missileSpeed: 20
   _spawnOffset: {x: 0.5, y: 0}
-  _missileSpawner: {fileID: 0}
+--- !u!114 &1854530287594088021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623481056378016542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eac429369f7f27e4a87bf8b75fba9b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 1457227627664845135, guid: c0f8a67587fcfaf43a70e993a74bac87, type: 3}
 --- !u!114 &429175709519009808
 MonoBehaviour:
   m_ObjectHideFlags: 0
