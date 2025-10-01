@@ -3,9 +3,14 @@ using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
-    [SerializeField] protected T Prefab;
+    [SerializeField] private T Prefab;
 
     private ObjectPool<T> _pool;
+
+    public void Clear()
+    {
+        _pool.Clear();
+    }
 
     protected virtual void Awake()
     {
@@ -41,6 +46,6 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual T Create()
     {
-        return Instantiate(Prefab, transform);
+        return Instantiate(Prefab);
     }
 }

@@ -5,39 +5,21 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : Spawner<Enemy>
 {
+    [SerializeField] private Transform _container;
     [SerializeField] private Collider2D _spawnZone;
     [SerializeField, Range(0.0f, 30.0f)] private float _spawnDelay = 4.5f;
 
     private Coroutine _spawnCoroutine;
 
-    private void Start()
+    public event Action EnemyDead;
+
+    public void StopSpawn()
     {
-        StartSpawn();
+        StopCoroutine(SpawnCoroutine());
+        _spawnCoroutine = null;
     }
 
-    protected override void GetAction(Enemy @object)
-    {
-        base.GetAction(@object);
-        @object.transform.position = GetRandomPosition();
-
-        @object.Dead += Release;
-    }
-
-    protected override void ReleaseAction(Enemy @object)
-    {
-        base.ReleaseAction(@object);
-
-        @object.Dead -= Release;
-    }
-
-    private Vector2 GetRandomPosition()
-    {
-        float randomY = Random.Range(_spawnZone.bounds.min.y, _spawnZone.bounds.max.y);
-
-        return new Vector2(_spawnZone.bounds.min.x, randomY);
-    }
-
-    private void StartSpawn()
+    public void StartSpawn()
     {
         if (_spawnCoroutine != null)
         {
@@ -46,6 +28,31 @@ public class EnemySpawner : Spawner<Enemy>
         }
 
         _spawnCoroutine = StartCoroutine(SpawnCoroutine());
+    }
+
+    protected override void GetAction(Enemy @object)
+    {
+        base.GetAction(@object);
+        @object.transform.position = GetRandomPosition();
+
+        @object.Dead += InvokeEnemyDead;
+        @object.ReleaseTimeCome += Release;
+    }
+
+    protected override void ReleaseAction(Enemy @object)
+    {
+        base.ReleaseAction(@object);
+
+        @object.Dead -= InvokeEnemyDead;
+        @object.ReleaseTimeCome -= Release;
+    }
+
+    protected override Enemy Create()
+    {
+        Enemy spawnedEnemy = base.Create();
+        spawnedEnemy.transform.parent = _container;
+
+        return spawnedEnemy;
     }
 
     private IEnumerator SpawnCoroutine()
@@ -59,5 +66,17 @@ public class EnemySpawner : Spawner<Enemy>
 
             yield return wait;
         }
+    }
+
+    private Vector2 GetRandomPosition()
+    {
+        float randomY = Random.Range(_spawnZone.bounds.min.y, _spawnZone.bounds.max.y);
+
+        return new Vector2(_spawnZone.bounds.min.x, randomY);
+    }
+
+    private void InvokeEnemyDead()
+    {
+        EnemyDead?.Invoke();
     }
 }

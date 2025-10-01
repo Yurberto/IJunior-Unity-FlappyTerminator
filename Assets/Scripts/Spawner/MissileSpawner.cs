@@ -11,9 +11,4 @@ public class MissileSpawner : Spawner<Missile>
         base.ReleaseAction(@object);
         @object.ReleaseTimeCome -= Release;
     }
-
-    protected override Missile Create()
-    {
-        return Instantiate(Prefab);
-    }
 }

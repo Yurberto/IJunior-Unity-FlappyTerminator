@@ -10,7 +10,8 @@ public class Enemy : MonoBehaviour
     private EnemyShooter _enemyShooter;
     private EnemyTriggerHandler _triggerHandler;
 
-    public event Action<Enemy> Dead;
+    public event Action Dead;
+    public event Action<Enemy> ReleaseTimeCome;
 
     private void Awake()
     {
@@ -25,14 +26,14 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        _triggerHandler.MissileHitted += Die;
-        _triggerHandler.ReleaseZoneHitted += Die;
+        _triggerHandler.PlayerMissileHitted += Die;
+        _triggerHandler.ReleaseZoneHitted += Release;
     }
 
     private void OnDisable()
     {
-        _triggerHandler.MissileHitted -= Die;
-        _triggerHandler.ReleaseZoneHitted -= Die;
+        _triggerHandler.PlayerMissileHitted -= Die;
+        _triggerHandler.ReleaseZoneHitted -= Release;
     }
 
     public void StartShooting()
@@ -42,6 +43,12 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        Dead?.Invoke(this);
+        Dead?.Invoke();
+        Release();
+    }
+
+    private void Release()
+    {
+        ReleaseTimeCome?.Invoke(this);
     }
 }
