@@ -54,7 +54,9 @@ public class EnemySpawner : Spawner<Enemy>
 
         while (enabled)
         {
-            Spawn();
+            Enemy spawnedEnemy = Spawn();
+            spawnedEnemy.StartShooting();
+
             yield return wait;
         }
     }
