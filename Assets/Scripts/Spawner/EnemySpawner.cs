@@ -30,29 +30,23 @@ public class EnemySpawner : Spawner<Enemy>
         _spawnCoroutine = StartCoroutine(SpawnCoroutine());
     }
 
-    protected override void GetAction(Enemy @object)
+    public override Enemy Spawn()
     {
-        base.GetAction(@object);
-        @object.transform.position = GetRandomPosition();
+        Enemy spawnedEnemy = base.Spawn();
+        spawnedEnemy.transform.position = GetRandomPosition();
 
-        @object.Dead += InvokeEnemyDead;
-        @object.ReleaseTimeCome += Release;
+        spawnedEnemy.Dead += InvokeEnemyDead;
+        spawnedEnemy.ReleaseTimeCome += Release;
+
+        return spawnedEnemy;
     }
 
-    protected override void ReleaseAction(Enemy @object)
+    protected override void Release(Enemy @object)
     {
-        base.ReleaseAction(@object);
+        base.Release(@object);
 
         @object.Dead -= InvokeEnemyDead;
         @object.ReleaseTimeCome -= Release;
-    }
-
-    protected override Enemy Create()
-    {
-        Enemy spawnedEnemy = base.Create();
-        spawnedEnemy.transform.parent = _container;
-
-        return spawnedEnemy;
     }
 
     private IEnumerator SpawnCoroutine()

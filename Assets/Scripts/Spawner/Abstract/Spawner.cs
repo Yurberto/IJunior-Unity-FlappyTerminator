@@ -1,51 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
-    [SerializeField] private T Prefab;
+    [SerializeField] protected T Prefab;
+    [SerializeField] protected Transform Container;
 
-    private ObjectPool<T> _pool;
-
-    public void Clear()
-    {
-        _pool.Clear();
-    }
+    protected ObjectPool<T> Pool;
 
     protected virtual void Awake()
     {
-        _pool = new ObjectPool<T>
-            (
-                createFunc: () => Create(),
-                actionOnGet: (@object) => GetAction(@object),
-                actionOnRelease: (@object) => ReleaseAction(@object),
-                actionOnDestroy: (@object) => Destroy(@object.gameObject),
-                collectionCheck: true
-            );
+        Pool = GetComponent<ObjectPool<T>>();
+        Pool.Initialize(Prefab, Container);
     }
 
-    public T Spawn()
+    public virtual void ReleaseAll()
     {
-        return _pool.Get();
+        IEnumerable<T> objectsToRelease = new IEnumerable<T>();
     }
 
-    protected void Release(T @object)
+    public virtual T Spawn()
     {
-        _pool.Release(@object);
+        return Pool.Get();
     }
 
-    protected virtual void GetAction(T @object)
+    protected virtual void Release(T @object)
     {
-        @object.gameObject.SetActive(true);
-    }
-
-    protected virtual void ReleaseAction(T @object)
-    {
-        @object.gameObject.SetActive (false);
-    }
-
-    protected virtual T Create()
-    {
-        return Instantiate(Prefab);
+        Pool.Release(@object);
     }
 }

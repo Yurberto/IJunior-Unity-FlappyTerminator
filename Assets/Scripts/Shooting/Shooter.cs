@@ -12,7 +12,6 @@ public class Shooter : MonoBehaviour
     private void Awake()
     {
         _missileSpawner = GetComponent<MissileSpawner>();
-
         _spawnOffset3D = new Vector3(_spawnOffset.x, _spawnOffset.y, 0.0f);
     }
 

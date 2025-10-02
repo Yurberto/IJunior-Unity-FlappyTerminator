@@ -1,14 +1,26 @@
 public class MissileSpawner : Spawner<Missile>
 {
-    protected override void GetAction(Missile @object)
+    protected override void Awake()
     {
-        base.GetAction(@object);
-        @object.ReleaseTimeCome += Release;
+        Pool = GetComponent<ObjectPool<Missile>>();
+
+        if (Container == null)
+            Pool.Initialize(Prefab, transform);
+        else
+            Pool.Initialize(Prefab, Container);
     }
 
-    protected override void ReleaseAction(Missile @object)
+    public override Missile Spawn()
     {
-        base.ReleaseAction(@object);
-        @object.ReleaseTimeCome -= Release;
+        Missile spawnedMissile = base.Spawn();
+        spawnedMissile.ReleaseTimeCome += Release;
+
+        return spawnedMissile;
+    }
+
+    protected override void Release(Missile objectToRelease)
+    {
+        base.Release(objectToRelease);
+        objectToRelease.ReleaseTimeCome -= Release;
     }
 }
