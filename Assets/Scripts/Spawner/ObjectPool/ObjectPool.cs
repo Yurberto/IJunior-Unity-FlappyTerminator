@@ -1,29 +1,27 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private Transform _parent;
-    private T _prefab;
     private Queue<T> _queue;
 
-    public IEnumerable<T> PoolObjects => _queue;
+    private Func<T> _create;
 
-    public void Initialize(T prefab, Transform parent)
+    public void Initialize(Func<T> create)
     {
-        _parent = parent;
-        _prefab = prefab;
+        _create = create;
         _queue = new Queue<T>();
     }
 
     public T Get()
     {
-        if (_prefab == null || _queue == null)
+        if (_queue == null)
             return null;
 
         if (_queue.Count == 0)
         {
-            Instantiate(_prefab, _parent);
+            _queue.Enqueue(_create());
         }
 
         T spawnedObject = _queue.Dequeue();

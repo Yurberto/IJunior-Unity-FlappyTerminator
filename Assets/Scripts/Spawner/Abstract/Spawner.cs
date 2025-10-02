@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
@@ -12,12 +10,14 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     protected virtual void Awake()
     {
         Pool = GetComponent<ObjectPool<T>>();
-        Pool.Initialize(Prefab, Container);
+        Pool.Initialize(() => Instantiate(Prefab, Container));
     }
 
     public virtual void ReleaseAll()
     {
-        IEnumerable<T> objectsToRelease = new IEnumerable<T>();
+        for (int i = 0; i < Container.childCount; i++)
+            if (Container.GetChild(i).TryGetComponent(out T objectToRelease))
+                Release(objectToRelease);
     }
 
     public virtual T Spawn()
