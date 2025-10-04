@@ -37,10 +37,9 @@ public class Game : MonoBehaviour
 
     private void Stop()
     {
-        _startScreen.Active();
-        _scoreCounter.Reset();
-
         Time.timeScale = 0;
+
+        _startScreen.Active();
     }
 
     private void Play()
@@ -50,6 +49,7 @@ public class Game : MonoBehaviour
 
         _playerMissileSpawner.ReleaseAll();
         _player.Reset();
+        _scoreCounter.Reset();
 
         _startScreen.Disable();
 
