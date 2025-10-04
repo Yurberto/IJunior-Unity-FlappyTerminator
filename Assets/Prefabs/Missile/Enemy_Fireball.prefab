@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1279938243661239312}
   - component: {fileID: 5874355470662861152}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 7728600024626386973}
   - component: {fileID: 7856061841312476346}
   - component: {fileID: 9209466312707017093}
-  - component: {fileID: -502377354170672125}
+  - component: {fileID: -7395204196864878092}
   - component: {fileID: 718276073232593466}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &-502377354170672125
+--- !u!114 &-7395204196864878092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,9 +191,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6012047779051655727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe365f548b05e94a99d5faba673ddf0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c07745462a04014a9081c8bfac887cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &718276073232593466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4875754755232621430}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Render
   m_TagString: Untagged
   m_Icon: {fileID: 0}

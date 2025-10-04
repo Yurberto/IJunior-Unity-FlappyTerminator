@@ -8,7 +8,7 @@ public class EnemyTriggerHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out PlayerMissile _))
+        if (other.TryGetComponent(out Missile missile) && missile.LayerMask == LayerMaskData.PlayerMissile)
         {
             PlayerMissileHitted?.Invoke();
         }

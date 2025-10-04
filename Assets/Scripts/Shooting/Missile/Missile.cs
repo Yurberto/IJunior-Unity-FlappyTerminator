@@ -6,11 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Missile : MonoBehaviour
 {
+    [SerializeField] private LayerMask _layerMask;
+
     private Collider2D _collider2D;
     private Rigidbody2D _rigidbody2D;
 
     public event Action<Missile> ReleaseTimeCome;
 
+    public LayerMask LayerMask => _layerMask;
     public Rigidbody2D Rigidbody2D => _rigidbody2D;
 
     private void Awake()
