@@ -28,9 +28,6 @@ public class ObjectsPool<T> where T : MonoBehaviour
 
     public void Release(T objectToRelease)
     {
-        if (objectToRelease == null)
-            return;
-
         _queue.Enqueue(objectToRelease);
         objectToRelease.gameObject.SetActive(false);
     }

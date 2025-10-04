@@ -1,13 +1,5 @@
 public class MissileSpawner : Spawner<Missile>
 {
-    protected override void Awake()
-    {
-        if (Container == null)
-            Container = transform;
-
-        base.Awake();
-    }
-
     public override Missile Spawn()
     {
         Missile spawnedMissile = base.Spawn();
