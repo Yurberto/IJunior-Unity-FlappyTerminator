@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _missileSpeed: 10
-  _spawnPoint: {fileID: 5094584497631337082}
+  _spawnpoint: {fileID: 5094584497631337082}
 --- !u!114 &5160418372878572400
 MonoBehaviour:
   m_ObjectHideFlags: 0
