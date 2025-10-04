@@ -7,7 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] InputReader _inputReader;
+    [SerializeField] private InputReader _inputReader;
+    [SerializeField] private MissileSpawner _missileSpawner;
 
     private PlayerMover _playerMover;
     private Shooter _shooter;
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
         _playerMover = GetComponent<PlayerMover>();
         _shooter = GetComponent<Shooter>();
         _collisionHandler = GetComponent<PlayerTriggerHandler>();
+
+        _shooter.Initialize(_missileSpawner);
     }
 
     private void Start()
@@ -63,7 +66,6 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("INVOKE_DEAD");
         Dead?.Invoke(); 
     }
 }

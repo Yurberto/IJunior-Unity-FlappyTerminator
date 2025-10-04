@@ -7,6 +7,7 @@ public class EnemySpawner : Spawner<Enemy>
 {
     [SerializeField] private Collider2D _spawnZone;
     [SerializeField, Range(0.0f, 30.0f)] private float _spawnDelay = 4.5f;
+    [SerializeField] private MissileSpawner _enemyMissileSpawner;
 
     private Coroutine _spawnCoroutine;
 
@@ -15,12 +16,6 @@ public class EnemySpawner : Spawner<Enemy>
     private void Start()
     {
         StartSpawn();   
-    }
-
-    public void StopSpawn()
-    {
-        StopCoroutine(SpawnCoroutine());
-        _spawnCoroutine = null;
     }
 
     public void StartSpawn()
@@ -37,20 +32,21 @@ public class EnemySpawner : Spawner<Enemy>
     public override Enemy Spawn()
     {
         Enemy spawnedEnemy = base.Spawn();
+        spawnedEnemy.Initialize(_enemyMissileSpawner);
         spawnedEnemy.transform.position = GetRandomPosition();
 
-        spawnedEnemy.Dead += InvokeEnemyDead;
         spawnedEnemy.ReleaseTimeCome += Release;
+        spawnedEnemy.Dead += InvokeEnemyDead;
 
         return spawnedEnemy;
     }
 
-    protected override void Release(Enemy @object)
+    protected override void Release(Enemy enemyToRelease)
     {
-        base.Release(@object);
+        base.Release(enemyToRelease);
 
-        @object.Dead -= InvokeEnemyDead;
-        @object.ReleaseTimeCome -= Release;
+        enemyToRelease.ReleaseTimeCome -= Release;
+        enemyToRelease.Dead -= InvokeEnemyDead;
     }
 
     private IEnumerator SpawnCoroutine()

@@ -9,12 +9,14 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Pool = new ObjectsPool<T>();
-        Pool.Initialize(() => Instantiate(Prefab, Container));
+        Pool = new ObjectsPool<T>(() => Instantiate(Prefab, Container));
     }
 
-    public virtual void ReleaseAll()
+    public void ReleaseAll()
     {
+        if (Container == null)
+            return;
+
         for (int i = 0; i < Container.childCount; i++)
             if (Container.GetChild(i).TryGetComponent(out T objectToRelease))
                 Release(objectToRelease);
@@ -25,8 +27,8 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
         return Pool.Get();
     }
 
-    protected virtual void Release(T @object)
+    protected virtual void Release(T objectToRelease)
     {
-        Pool.Release(@object);
+        Pool.Release(objectToRelease);
     }
 }

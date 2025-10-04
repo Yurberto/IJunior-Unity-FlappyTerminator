@@ -12,6 +12,11 @@ public class Enemy : MonoBehaviour
     public event Action Dead;
     public event Action<Enemy> ReleaseTimeCome;
 
+    public void Initialize(MissileSpawner missileSpawner)
+    {
+        _enemyShooter.Initialize(missileSpawner);
+    }
+
     private void Awake()
     {
         _enemyShooter = GetComponent<EnemyShooter>();

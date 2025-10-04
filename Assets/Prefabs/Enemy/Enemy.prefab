@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 219403885550406350}
   - component: {fileID: 3197115977489463733}
   - component: {fileID: 575016833544806408}
-  - component: {fileID: 2904558751262483942}
   - component: {fileID: 5160418372878572400}
   - component: {fileID: 1714202438102612611}
   m_Layer: 0
@@ -225,20 +224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _missileSpeed: 10
   _spawnOffset: {x: -1, y: 0}
---- !u!114 &2904558751262483942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7134758616456506124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eac429369f7f27e4a87bf8b75fba9b2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Prefab: {fileID: -502377354170672125, guid: 872cabb860f858048b83cf9dbb330437, type: 3}
-  Container: {fileID: 0}
 --- !u!114 &5160418372878572400
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Canvas))]
-public class StartCanvas : MonoBehaviour
+public class StartScreen : MonoBehaviour
 {
     public void Active()
     {

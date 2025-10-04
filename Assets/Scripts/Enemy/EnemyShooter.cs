@@ -9,6 +9,11 @@ public class EnemyShooter : MonoBehaviour
     private Shooter _shooter;
     private Coroutine _shootCoroutine;
 
+    public void Initialize(MissileSpawner missileSpawner)
+    {
+        _shooter.Initialize(missileSpawner);
+    }
+
     private void Awake()
     {
         _shooter = GetComponent<Shooter>();

@@ -5,20 +5,16 @@ using UnityEngine;
 public class ObjectsPool<T> where T : MonoBehaviour
 {
     private Queue<T> _queue;
-
     private Func<T> _create;
 
-    public void Initialize(Func<T> create)
+    public ObjectsPool(Func<T> create)
     {
-        _create = create;
         _queue = new Queue<T>();
+        _create = create;
     }
 
     public T Get()
     {
-        if (_queue == null)
-            return null;
-
         if (_queue.Count == 0)
         {
             _queue.Enqueue(_create());
@@ -33,10 +29,7 @@ public class ObjectsPool<T> where T : MonoBehaviour
     public void Release(T objectToRelease)
     {
         if (objectToRelease == null)
-        {
-            Debug.LogError("Нельзя релизнуть, он ноль");
             return;
-        }
 
         _queue.Enqueue(objectToRelease);
         objectToRelease.gameObject.SetActive(false);

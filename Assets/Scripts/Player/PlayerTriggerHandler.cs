@@ -9,9 +9,6 @@ public class PlayerTriggerHandler : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out Obstacle _))
-        {
             ObstacleHitted?.Invoke();
-            Debug.Log("Hitted Obstacle");
-        }
     }
 }

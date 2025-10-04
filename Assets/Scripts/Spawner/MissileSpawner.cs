@@ -3,14 +3,9 @@ public class MissileSpawner : Spawner<Missile>
     protected override void Awake()
     {
         if (Container == null)
-            Container.SetParent(transform, true);
+            Container = transform;
 
         base.Awake();
-    }
-
-    private void OnDisable()
-    {
-        ReleaseAll();    
     }
 
     public override Missile Spawn()
@@ -21,9 +16,9 @@ public class MissileSpawner : Spawner<Missile>
         return spawnedMissile;
     }
 
-    protected override void Release(Missile objectToRelease)
+    protected override void Release(Missile missileToRelease)
     {
-        base.Release(objectToRelease);
-        objectToRelease.ReleaseTimeCome -= Release;
+        base.Release(missileToRelease);
+        missileToRelease.ReleaseTimeCome -= Release;
     }
 }
