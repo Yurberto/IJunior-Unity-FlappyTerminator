@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+public class ObjectsPool<T> where T : MonoBehaviour
 {
     private Queue<T> _queue;
 
@@ -32,6 +32,12 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
 
     public void Release(T objectToRelease)
     {
+        if (objectToRelease == null)
+        {
+            Debug.LogError("Нельзя релизнуть, он ноль");
+            return;
+        }
+
         _queue.Enqueue(objectToRelease);
         objectToRelease.gameObject.SetActive(false);
     }

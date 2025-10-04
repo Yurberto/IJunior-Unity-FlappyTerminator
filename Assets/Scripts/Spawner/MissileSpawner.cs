@@ -1,14 +1,16 @@
-using UnityEngine;
-
 public class MissileSpawner : Spawner<Missile>
 {
     protected override void Awake()
     {
-        Pool = GetComponent<ObjectPool<Missile>>();
+        if (Container == null)
+            Container.SetParent(transform, true);
 
-        Transform parent = (Container == null) ? transform : Container;
+        base.Awake();
+    }
 
-        Pool.Initialize(() => Instantiate(Prefab, parent));
+    private void OnDisable()
+    {
+        ReleaseAll();    
     }
 
     public override Missile Spawn()

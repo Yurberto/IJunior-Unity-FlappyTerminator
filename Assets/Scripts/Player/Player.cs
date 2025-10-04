@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        Debug.Log("INVOKE_DEAD");
         Dead?.Invoke(); 
     }
 }

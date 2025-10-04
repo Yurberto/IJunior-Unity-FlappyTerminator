@@ -5,13 +5,17 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : Spawner<Enemy>
 {
-    [SerializeField] private Transform _container;
     [SerializeField] private Collider2D _spawnZone;
     [SerializeField, Range(0.0f, 30.0f)] private float _spawnDelay = 4.5f;
 
     private Coroutine _spawnCoroutine;
 
     public event Action EnemyDead;
+
+    private void Start()
+    {
+        StartSpawn();   
+    }
 
     public void StopSpawn()
     {

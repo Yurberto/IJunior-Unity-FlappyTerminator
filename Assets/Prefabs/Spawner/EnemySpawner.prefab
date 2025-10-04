@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
-  _container: {fileID: 3521300559415637863}
+  Container: {fileID: 5440687588684185935, guid: e3bb68b9b8ba3a849a568cb26dee34ac, type: 3}
   _spawnZone: {fileID: 0}
   _spawnDelay: 4.5
 --- !u!1001 &8889851378982172200

@@ -5,11 +5,11 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField] protected T Prefab;
     [SerializeField] protected Transform Container;
 
-    protected ObjectPool<T> Pool;
+    protected ObjectsPool<T> Pool;
 
     protected virtual void Awake()
     {
-        Pool = GetComponent<ObjectPool<T>>();
+        Pool = new ObjectsPool<T>();
         Pool.Initialize(() => Instantiate(Prefab, Container));
     }
 

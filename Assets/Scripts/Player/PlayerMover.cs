@@ -29,6 +29,9 @@ public class PlayerMover : MonoBehaviour
     public void Reset()
     {
         transform.position = _startPosition;
+        transform.rotation = Quaternion.identity;
+        _rigidbody2D.velocity = Vector2.zero;
+        _rigidbody2D.angularVelocity = 0.0f;
     }
 
     private void Awake()
